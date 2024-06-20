@@ -1,8 +1,9 @@
-# Use the official RabbitMQ image
-FROM rabbitmq:3-management
+FROM rabbitmq:3.8.0-management
 
-# Enable the management plugin
-RUN rabbitmq-plugins enable --offline rabbitmq_management
+COPY rabbitmq.conf /etc/rabbitmq/
 
-# Expose ports for AMQP protocol and management UI
-EXPOSE 5672 15672
+ENV RABBITMQ_NODENAME=rabbit@localhost
+
+RUN chown rabbitmq:rabbitmq /etc/rabbitmq/rabbitmq.conf
+
+USER rabbitmq:rabbitmq
